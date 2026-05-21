@@ -6,6 +6,23 @@ VDRProlog replaces floating-point GPU computing with VDR (Value/Denominator/Rema
 
 The system combines an LLM inference engine with a Prolog logic engine, a knowledge base store, a grammar template engine, and autonomous runner management — all operating on exact integer arithmetic. The LLM handles judgment and framing. Everything else (data retrieval, computation, deduction, formatting, access control) is handled by deterministic integer subsystems at zero LLM token cost.
 
+**Development Paused until SPIR-V Matures**
+
+VLP is a GPU-accelerated system designed to run an LLM inference engine,
+Prolog deduction, knowledge base management, and grammar rendering using
+exact integer (VDR Q16) arithmetic — no floats anywhere. The full
+architecture is specified: 24 Zig source files comprising a single SPIR-V
+compute kernel (28 ops routed via op_code switch), a Vulkan bridge, and
+20 host-side modules for session management, runners, snapshots, access
+control, and the inference loop. Development is paused because the Zig
+0.16.0 SPIR-V backend cannot yet produce working Vulkan compute shaders
+— executionMode/local_size cannot be set (inline asm rejected), descriptor
+set bindings require unimplemented inline asm, workgroup barriers have no
+API, and the Windows linker cannot write .spv output files
+(ziglang/zig#23883). The design is complete and ready to build when these
+backend issues are resolved in a future Zig release. All specs, module
+implementations, and the GPU integration test runbook are in this repo.
+
 ---
 
 ## What This Is
