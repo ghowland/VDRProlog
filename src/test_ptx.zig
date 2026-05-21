@@ -144,6 +144,9 @@ pub fn main() void {
     }
     std.debug.print("[OK] Context\n", .{});
 
+    std.debug.print("[DBG] PTX first 80 bytes: {s}\n", .{ptx_source[0..@min(80, ptx_source.len)]});
+    std.debug.print("[DBG] PTX size: {} last byte: {}\n", .{ ptx_source.len, ptx_source[ptx_source.len - 1] });
+
     var mod: CUmodule = null;
     const lr = cuModuleLoadData(&mod, ptx_source.ptr);
     if (lr != CUDA_SUCCESS) {
